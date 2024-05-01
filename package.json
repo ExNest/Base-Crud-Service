@@ -1,6 +1,6 @@
 {
   "name": "base-crud-service",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "",
   "main": "build/index.js",
   "types": "build/index.d.ts",
@@ -10,7 +10,7 @@
   },
   "keywords": [],
   "author": "hopedevelopment",
-  "license": "ISC",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ExNest/Base-Crud-Service.git"
