@@ -1,7 +1,6 @@
 {
-  "name": "@exnest/base-crud-service",
-  "version": "0.0.13",
-  "description": "",
+  "name": "@exnest/extended-nest",
+  "version": "0.0.2",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
@@ -13,12 +12,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ExNest/Base-Crud-Service.git"
+    "url": "git+https://github.com/ExNest/ExtendedNest.git"
   },
   "bugs": {
-    "url": "https://github.com/ExNest/Base-Crud-Service/issues"
+    "url": "https://github.com/ExNest/ExtendedNest/issues"
   },
-  "homepage": "https://github.com/ExNest/Base-Crud-Service#readme",
+  "homepage": "https://github.com/ExNest/ExtendedNest#readme",
   "dependencies": {
     "@js-joda/core": "^5.6.2",
     "@nestjs/typeorm": "^10.0.2",
@@ -28,5 +27,8 @@
     "@types/node": "^20.12.7",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.4.5"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
