@@ -1,12 +1,32 @@
 {
   "name": "base-crud-service",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
-  "main": "index.js",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "run": "ts-node-dev --respawn -- ./src/index.ts",
+    "build": "tsc -b"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "author": "hopedevelopment",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ExNest/Base-Crud-Service.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ExNest/Base-Crud-Service/issues"
+  },
+  "homepage": "https://github.com/ExNest/Base-Crud-Service#readme",
+  "dependencies": {
+    "@js-joda/core": "^5.6.2",
+    "@nestjs/typeorm": "^10.0.2",
+    "typeorm": "^0.3.20"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.7",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.4.5"
+  }
 }
