@@ -1,6 +1,6 @@
 import { LocalDateTime } from "@js-joda/core";
 import { ValueTransformer } from "typeorm";
-import { DateTimeUtil } from 'src/utils';
+import { DateTimeUtil } from './datetime.util';
 
 /// https://jojoldu.tistory.com/600
 export class LocalDateTimeTransformer implements ValueTransformer {

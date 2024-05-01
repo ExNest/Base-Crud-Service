@@ -1,4 +1,4 @@
-export { ExtendedBaseEntity } from 'src/classes/extended-base.entity';
-export { ExtendedBaseTimeEntity } from 'src/classes/extended-base-time.entity';
-export { ExtendedBaseCreateDto, ExtendedBaseUpdateDto } from 'src/classes/extended-base-dto';
-export { ExtendedBaseRepository } from 'src/classes/extended-base-repository';
+export { ExtendedBaseEntity } from './extended-base.entity';
+export { ExtendedBaseTimeEntity } from './extended-base-time.entity';
+export { ExtendedBaseCreateDto, ExtendedBaseUpdateDto } from './extended-base-dto';
+export { ExtendedBaseRepository } from './extended-base-repository';

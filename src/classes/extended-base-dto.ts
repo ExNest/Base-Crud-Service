@@ -1,4 +1,4 @@
-import { ExtendedBaseTimeEntity } from "src/classes";
+import { ExtendedBaseTimeEntity } from "./extended-base-time.entity";
 import { Constructor } from "src/types";
 
 class ExtendedBaseCreateDto<T extends ExtendedBaseTimeEntity> implements Omit<Constructor<T>, 'id' | 'sequence' | 'createdAt' | 'updatedAt' | 'deletedAt' > {};

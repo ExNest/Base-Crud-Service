@@ -11,17 +11,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ExtendedBaseTimeEntity = void 0;
 const core_1 = require("@js-joda/core");
-const classes_1 = require("src/classes");
+const extended_base_entity_1 = require("./extended-base.entity");
 const typeorm_1 = require("typeorm");
-const utils_1 = require("src/utils");
-class ExtendedBaseTimeEntity extends classes_1.ExtendedBaseEntity {
+const transformer_util_1 = require("../utils/transformer.util");
+class ExtendedBaseTimeEntity extends extended_base_entity_1.ExtendedBaseEntity {
 }
 exports.ExtendedBaseTimeEntity = ExtendedBaseTimeEntity;
 __decorate([
     (0, typeorm_1.Column)({
         type: "timestamptz",
         nullable: false,
-        transformer: new utils_1.LocalDateTimeTransformer()
+        transformer: new transformer_util_1.LocalDateTimeTransformer()
     }),
     __metadata("design:type", core_1.LocalDateTime)
 ], ExtendedBaseTimeEntity.prototype, "createdAt", void 0);
@@ -29,7 +29,7 @@ __decorate([
     (0, typeorm_1.Column)({
         type: "timestamptz",
         nullable: false,
-        transformer: new utils_1.LocalDateTimeTransformer()
+        transformer: new transformer_util_1.LocalDateTimeTransformer()
     }),
     __metadata("design:type", core_1.LocalDateTime)
 ], ExtendedBaseTimeEntity.prototype, "updatedAt", void 0);
@@ -37,7 +37,7 @@ __decorate([
     (0, typeorm_1.DeleteDateColumn)({
         type: "timestamptz",
         nullable: true,
-        transformer: new utils_1.LocalDateTimeTransformer()
+        transformer: new transformer_util_1.LocalDateTimeTransformer()
     }),
     __metadata("design:type", core_1.LocalDateTime)
 ], ExtendedBaseTimeEntity.prototype, "deletedAt", void 0);

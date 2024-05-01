@@ -14,7 +14,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createBaseCrudService = void 0;
 const typeorm_1 = require("@nestjs/typeorm");
-const classes_1 = require("src/classes");
+const index_1 = require("../classes/index");
 function createBaseCrudService(entity) {
     let BaseCrudService = class BaseCrudService {
         constructor(repository) {
@@ -128,7 +128,7 @@ function createBaseCrudService(entity) {
     };
     BaseCrudService = __decorate([
         __param(0, (0, typeorm_1.InjectRepository)(entity)),
-        __metadata("design:paramtypes", [classes_1.ExtendedBaseRepository])
+        __metadata("design:paramtypes", [index_1.ExtendedBaseRepository])
     ], BaseCrudService);
     return BaseCrudService;
 }

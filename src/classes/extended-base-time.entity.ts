@@ -1,7 +1,7 @@
 import { LocalDateTime } from "@js-joda/core";
-import { ExtendedBaseEntity } from "src/classes";
+import { ExtendedBaseEntity } from "./extended-base.entity";
 import { Column, DeleteDateColumn } from "typeorm";
-import { LocalDateTimeTransformer } from "src/utils";
+import { LocalDateTimeTransformer } from "../utils/transformer.util";
 
 export abstract class ExtendedBaseTimeEntity extends ExtendedBaseEntity {
   @Column({
