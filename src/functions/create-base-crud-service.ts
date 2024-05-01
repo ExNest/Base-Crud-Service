@@ -1,6 +1,6 @@
 import { InjectRepository } from "@nestjs/typeorm";
 import { ExtendedBaseCreateDto, ExtendedBaseRepository, ExtendedBaseTimeEntity, ExtendedBaseUpdateDto } from "../classes/index";
-import { DeepPartial, FindOptionsWhere, QueryRunner } from 'typeorm';
+import { DeepPartial, DeleteResult, FindOptionsWhere, QueryRunner, UpdateResult } from 'typeorm';
 import { Constructor } from "../types/index";
 
 export function createBaseCrudService<T extends ExtendedBaseTimeEntity>(entity: Constructor<T>){
@@ -39,11 +39,12 @@ export function createBaseCrudService<T extends ExtendedBaseTimeEntity>(entity: 
           ...createDto
         } as DeepPartial<M>);
         
-        await queryRunner.manager.withRepository(this.repository).save(newOne, {
+        const result: M = await queryRunner.manager.withRepository(this.repository).save(newOne, {
           transaction: false
         });
 
         await queryRunner.commitTransaction();
+        return result;
       } catch (error) {
         await queryRunner.rollbackTransaction();
         throw error;
@@ -70,9 +71,10 @@ export function createBaseCrudService<T extends ExtendedBaseTimeEntity>(entity: 
           throw error;
         }
 
-        await queryRunner.manager.withRepository(this.repository).update(targetOption, {...updateDto});
+        const result: UpdateResult = await queryRunner.manager.withRepository(this.repository).update(targetOption, {...updateDto});
 
         await queryRunner.commitTransaction();
+        return result;
       } catch (error) {
         await queryRunner.rollbackTransaction();
         throw error;
@@ -99,9 +101,10 @@ export function createBaseCrudService<T extends ExtendedBaseTimeEntity>(entity: 
           throw error;
         }
 
-        await queryRunner.manager.withRepository(this.repository).softDelete(targetOption);
+        const result: UpdateResult = await queryRunner.manager.withRepository(this.repository).softDelete(targetOption);
 
         await queryRunner.commitTransaction();
+        return result;
       } catch (error) {
         await queryRunner.rollbackTransaction();
         throw error;
@@ -128,9 +131,10 @@ export function createBaseCrudService<T extends ExtendedBaseTimeEntity>(entity: 
           throw error;
         }
 
-        await queryRunner.manager.withRepository(this.repository).delete(targetOption);
+        const result: DeleteResult = await queryRunner.manager.withRepository(this.repository).delete(targetOption);
 
         await queryRunner.commitTransaction();
+        return result;
       } catch (error) {
         await queryRunner.rollbackTransaction();
         throw error;
