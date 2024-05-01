@@ -1,1 +1,1 @@
-export { createBaseCrudService } from 'functions/create-base-crud-service';
+export { createBaseCrudService } from './create-base-crud-service';

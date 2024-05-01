@@ -1,1 +1,1 @@
-export { Constructor } from 'types/generic.type';
+export { Constructor } from './generic.type';
