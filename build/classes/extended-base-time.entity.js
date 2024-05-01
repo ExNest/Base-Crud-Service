@@ -11,9 +11,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ExtendedBaseTimeEntity = void 0;
 const core_1 = require("@js-joda/core");
-const classes_1 = require("classes");
+const classes_1 = require("src/classes");
 const typeorm_1 = require("typeorm");
-const utils_1 = require("utils");
+const utils_1 = require("src/utils");
 class ExtendedBaseTimeEntity extends classes_1.ExtendedBaseEntity {
 }
 exports.ExtendedBaseTimeEntity = ExtendedBaseTimeEntity;

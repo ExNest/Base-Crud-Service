@@ -1,7 +1,7 @@
 import { InjectRepository } from "@nestjs/typeorm";
-import { ExtendedBaseCreateDto, ExtendedBaseRepository, ExtendedBaseTimeEntity, ExtendedBaseUpdateDto } from "classes";
+import { ExtendedBaseCreateDto, ExtendedBaseRepository, ExtendedBaseTimeEntity, ExtendedBaseUpdateDto } from "src/classes";
 import { DeepPartial, FindOptionsWhere, QueryRunner } from 'typeorm';
-import { Constructor } from "types";
+import { Constructor } from "src/types";
 
 export function createBaseCrudService<T extends ExtendedBaseTimeEntity>(entity: Constructor<T>){
   class BaseCrudService<M extends T>{

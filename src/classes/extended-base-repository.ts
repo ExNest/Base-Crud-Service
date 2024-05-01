@@ -1,4 +1,4 @@
-import { ExtendedBaseEntity } from "classes";
+import { ExtendedBaseEntity } from "src/classes";
 import { BaseEntity, EntityManager, EntityTarget, QueryRunner, Repository } from "typeorm";
 
 export class ExtendedBaseRepository<T extends (BaseEntity | ExtendedBaseEntity)> extends Repository<T>{

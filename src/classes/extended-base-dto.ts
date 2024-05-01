@@ -1,6 +1,7 @@
-import { ExtendedBaseEntity } from "classes";
-import { BaseEntity } from "typeorm";
-import { Constructor } from "types";
+import { ExtendedBaseTimeEntity } from "src/classes";
+import { Constructor } from "src/types";
 
-export class ExtendedBaseCreateDto<T extends (BaseEntity | ExtendedBaseEntity)> implements Omit<Constructor<T>, 'id' | 'sequence' | 'createdAt' | 'updatedAt' | 'deletedAt' > {};
-export class ExtendedBaseUpdateDto<T extends (BaseEntity | ExtendedBaseEntity)> implements Partial<ExtendedBaseCreateDto<T>> {};
+class ExtendedBaseCreateDto<T extends ExtendedBaseTimeEntity> implements Omit<Constructor<T>, 'id' | 'sequence' | 'createdAt' | 'updatedAt' | 'deletedAt' > {};
+class ExtendedBaseUpdateDto<T extends ExtendedBaseTimeEntity> implements Partial<ExtendedBaseCreateDto<T>> {};
+
+export { ExtendedBaseCreateDto, ExtendedBaseUpdateDto };

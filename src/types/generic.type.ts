@@ -1,4 +1,3 @@
-import { ExtendedBaseEntity } from "classes";
-import { BaseEntity} from "typeorm";
+import { ExtendedBaseTimeEntity } from "src/classes";
 
-export type Constructor<T extends (BaseEntity | ExtendedBaseEntity)> = new (arg: T) => T;
+export type Constructor<T extends ExtendedBaseTimeEntity> = new (arg: T) => T;

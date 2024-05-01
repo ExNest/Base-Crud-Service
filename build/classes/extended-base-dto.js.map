@@ -1,1 +1,1 @@
-{"version":3,"file":"extended-base-dto.js","sourceRoot":"","sources":["../../src/classes/extended-base-dto.ts"],"names":[],"mappings":";;;AAIA,MAAa,qBAAqB;CAA8I;AAAhL,sDAAgL;AAAA,CAAC;AACjL,MAAa,qBAAqB;CAA6F;AAA/H,sDAA+H;AAAA,CAAC"}
+{"version":3,"file":"extended-base-dto.js","sourceRoot":"","sources":["../../src/classes/extended-base-dto.ts"],"names":[],"mappings":";;;AAGA,MAAM,qBAAqB;CAAmI;AAGrJ,sDAAqB;AAHgI,CAAC;AAC/J,MAAM,qBAAqB;CAAkF;AAE7E,sDAAqB;AAFwD,CAAC"}
