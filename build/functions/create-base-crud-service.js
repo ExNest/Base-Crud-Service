@@ -40,10 +40,11 @@ function createBaseCrudService(entity) {
                     throw error;
                 }
                 const newOne = queryRunner.manager.withRepository(this.repository).create(Object.assign({}, createDto));
-                await queryRunner.manager.withRepository(this.repository).save(newOne, {
+                const result = await queryRunner.manager.withRepository(this.repository).save(newOne, {
                     transaction: false
                 });
                 await queryRunner.commitTransaction();
+                return result;
             }
             catch (error) {
                 await queryRunner.rollbackTransaction();
@@ -66,8 +67,9 @@ function createBaseCrudService(entity) {
                     };
                     throw error;
                 }
-                await queryRunner.manager.withRepository(this.repository).update(targetOption, Object.assign({}, updateDto));
+                const result = await queryRunner.manager.withRepository(this.repository).update(targetOption, Object.assign({}, updateDto));
                 await queryRunner.commitTransaction();
+                return result;
             }
             catch (error) {
                 await queryRunner.rollbackTransaction();
@@ -90,8 +92,9 @@ function createBaseCrudService(entity) {
                     };
                     throw error;
                 }
-                await queryRunner.manager.withRepository(this.repository).softDelete(targetOption);
+                const result = await queryRunner.manager.withRepository(this.repository).softDelete(targetOption);
                 await queryRunner.commitTransaction();
+                return result;
             }
             catch (error) {
                 await queryRunner.rollbackTransaction();
@@ -114,8 +117,9 @@ function createBaseCrudService(entity) {
                     };
                     throw error;
                 }
-                await queryRunner.manager.withRepository(this.repository).delete(targetOption);
+                const result = await queryRunner.manager.withRepository(this.repository).delete(targetOption);
                 await queryRunner.commitTransaction();
+                return result;
             }
             catch (error) {
                 await queryRunner.rollbackTransaction();
