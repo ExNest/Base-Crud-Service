@@ -1,7 +1,7 @@
-import { ExtendedBaseEntity } from "./extended-base.entity";
-import { BaseEntity, EntityManager, EntityTarget, QueryRunner, Repository } from "typeorm";
+import { ExtendedBaseTimeEntity } from "./extended-base-time.entity";
+import { EntityManager, EntityTarget, QueryRunner, Repository } from "typeorm";
 
-export class ExtendedBaseRepository<T extends (BaseEntity | ExtendedBaseEntity)> extends Repository<T>{
+export class ExtendedBaseRepository<T extends ExtendedBaseTimeEntity> extends Repository<T>{
   constructor(
     target: EntityTarget<T>, manager: EntityManager, queryRunner?: QueryRunner
   ){
