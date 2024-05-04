@@ -12,7 +12,7 @@ function InheritRoutes(option) {
     }
     else {
         const parentPath = Reflect.getMetadata(constants_1.PATH_METADATA, common_1.Controller);
-        path += parentPath;
+        path += (parentPath !== null && parentPath !== void 0 ? parentPath : '');
     }
     const pathArray = Array.isArray(option.path) ? option.path : [option.path];
     const metadatas = pathArray.map((pathStr) => {

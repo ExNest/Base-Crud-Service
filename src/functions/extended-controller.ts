@@ -29,7 +29,7 @@ function InheritRoutes(option: PathOption): IReflectOption[] {
     path += parentPath;
   }else{
     const parentPath = Reflect.getMetadata(PATH_METADATA, Controller);
-    path += parentPath;
+    path += (parentPath ?? '');
   }
 
   const pathArray: string[] = Array.isArray(option.path) ? option.path : [option.path];
