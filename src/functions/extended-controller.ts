@@ -1,5 +1,5 @@
 import { Controller } from "@nestjs/common";
-import { PATH_METADATA } from "@nestjs/common/constants";
+import { CONTROLLER_WATERMARK, HOST_METADATA, PATH_METADATA } from "@nestjs/common/constants";
 import { Path, PathOption } from "../types";
 
 
@@ -22,6 +22,7 @@ export interface IReflectOption {
 }
 
 function InheritRoutes(option: PathOption): IReflectOption[] {
+  const sperator: string = '/';
   let path: string = '';
 
   if(!!(option as IInheritPathOption).parent){
@@ -37,7 +38,7 @@ function InheritRoutes(option: PathOption): IReflectOption[] {
   const metadatas: IReflectOption[] = pathArray.map((pathStr) =>{
     const metadata: IReflectOption = {
       metadataKey: PATH_METADATA,
-      metadataValue: path + pathStr
+      metadataValue: path + sperator + pathStr
     };
 
     return metadata;
@@ -50,14 +51,11 @@ function InheritRoutesArray(pathOptions: PathOption[]){
   const reflectOptions: IReflectOption[] = pathOptions.flatMap((pathOption: PathOption) => {
     return InheritRoutes(pathOption);
   });
+  const pathArray: string[] = reflectOptions.map(({ metadataValue }) => metadataValue);
   return (target: Object) => {
-    reflectOptions.forEach(({ metadataKey, metadataValue }) => {
-      Reflect.defineMetadata(
-        metadataKey,
-        metadataValue,
-        target
-      )
-    })
+
+    Reflect.defineMetadata(CONTROLLER_WATERMARK, true, target);
+    Reflect.defineMetadata(PATH_METADATA, pathArray, target);
   }
 }
 

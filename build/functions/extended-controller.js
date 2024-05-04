@@ -5,6 +5,7 @@ const common_1 = require("@nestjs/common");
 const constants_1 = require("@nestjs/common/constants");
 ;
 function InheritRoutes(option) {
+    const sperator = '/';
     let path = '';
     if (!!option.parent) {
         const parentPath = Reflect.getMetadata(constants_1.PATH_METADATA, option.parent);
@@ -18,7 +19,7 @@ function InheritRoutes(option) {
     const metadatas = pathArray.map((pathStr) => {
         const metadata = {
             metadataKey: constants_1.PATH_METADATA,
-            metadataValue: path + pathStr
+            metadataValue: path + sperator + pathStr
         };
         return metadata;
     });
@@ -28,10 +29,10 @@ function InheritRoutesArray(pathOptions) {
     const reflectOptions = pathOptions.flatMap((pathOption) => {
         return InheritRoutes(pathOption);
     });
+    const pathArray = reflectOptions.map(({ metadataValue }) => metadataValue);
     return (target) => {
-        reflectOptions.forEach(({ metadataKey, metadataValue }) => {
-            Reflect.defineMetadata(metadataKey, metadataValue, target);
-        });
+        Reflect.defineMetadata(constants_1.CONTROLLER_WATERMARK, true, target);
+        Reflect.defineMetadata(constants_1.PATH_METADATA, pathArray, target);
     };
 }
 function ExtendedController(options) {
