@@ -1,1 +1,2 @@
-export { Constructor } from './generic.type';
+export * from './generic.type';
+export * from './path.type';
