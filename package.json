@@ -5,7 +5,8 @@
   "types": "build/index.d.ts",
   "scripts": {
     "run": "ts-node-dev --respawn -- ./src/index.ts",
-    "build": "tsc -b"
+    "build": "tsc -b",
+    "prepare": "husky"
   },
   "keywords": [],
   "author": "hopedevelopment",
@@ -26,10 +27,22 @@
   },
   "devDependencies": {
     "@types/node": "^20.12.7",
+    "commitizen": "^4.3.0",
+    "husky": "^9.0.11",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.4.5"
   },
   "publishConfig": {
     "access": "public"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "husky": {
+    "hooks": {
+      "prepare-commit-msg": "exec < /dev/tty && npx cz --hook || true"
+    }
   }
 }

@@ -1,5 +1,5 @@
 import { Controller } from "@nestjs/common";
-import { CONTROLLER_WATERMARK, HOST_METADATA, PATH_METADATA } from "@nestjs/common/constants";
+import { CONTROLLER_WATERMARK, PATH_METADATA } from "@nestjs/common/constants";
 import { Path, PathOption } from "../types";
 
 
