@@ -1,7 +1,7 @@
 import { UUID } from "crypto";
-import { BaseEntity, Column, PrimaryColumn } from "typeorm";
+import { Column, PrimaryColumn } from "typeorm";
 
-export abstract class ExtendedBaseEntity extends BaseEntity{
+export abstract class ExtendedBaseEntity{
   @PrimaryColumn({
     type: "uuid",
     primary: true,
