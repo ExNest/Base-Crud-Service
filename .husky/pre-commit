@@ -1,1 +1,0 @@
-npm run build && git add . && exec < /dev/tty && npx cz --hook || true
