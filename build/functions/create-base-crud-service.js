@@ -26,12 +26,14 @@ function createBaseCrudService(entity) {
                 transaction
             });
         }
-        async create(targetOption, createDto) {
+        async create(createDto) {
             const queryRunner = this.repository.manager.connection.createQueryRunner();
             try {
                 await queryRunner.connect();
                 await queryRunner.startTransaction();
-                const [findOne] = await this.read(targetOption, false);
+                const newOne = queryRunner.manager.withRepository(this.repository).create(createDto);
+                const targetOption = { id: newOne.id };
+                const [findOne] = await this.read(targetOption);
                 if (!!findOne) {
                     const error = {
                         name: `Already Exists`,
@@ -39,7 +41,6 @@ function createBaseCrudService(entity) {
                     };
                     throw error;
                 }
-                const newOne = queryRunner.manager.withRepository(this.repository).create(Object.assign({}, createDto));
                 const result = await queryRunner.manager.withRepository(this.repository).save(newOne, {
                     transaction: false
                 });

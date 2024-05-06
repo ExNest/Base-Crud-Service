@@ -17,14 +17,17 @@ export function createBaseCrudService<T extends ExtendedBaseTimeEntity>(entity: 
       });
     }
 
-    async create(targetOption: FindOptionsWhere<M>, createDto: ExtendedBaseCreateDto<M>){
+    async create(createDto: ExtendedBaseCreateDto<M>){
       const queryRunner: QueryRunner = this.repository.manager.connection.createQueryRunner();
 
       try {
         await queryRunner.connect();
         await queryRunner.startTransaction();
         
-        const [findOne]: M[] = await this.read(targetOption, false);
+        const newOne: M = queryRunner.manager.withRepository(this.repository).create(createDto as DeepPartial<M>);
+        const targetOption: FindOptionsWhere<M> = { id: newOne.id } as FindOptionsWhere<M>;
+
+        const [findOne]: M[] = await this.read(targetOption);
 
         if(!!findOne){
           const error: Error = {
@@ -35,10 +38,6 @@ export function createBaseCrudService<T extends ExtendedBaseTimeEntity>(entity: 
           throw error;
         }
 
-        const newOne: M = queryRunner.manager.withRepository(this.repository).create({
-          ...createDto
-        } as DeepPartial<M>);
-        
         const result: M = await queryRunner.manager.withRepository(this.repository).save(newOne, {
           transaction: false
         });
