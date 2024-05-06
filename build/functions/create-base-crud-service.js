@@ -21,47 +21,30 @@ function createBaseCrudService(entity) {
             this.repository = repository;
         }
         async read(targetOption, transaction = true) {
-            return await this.repository.find({
-                where: targetOption,
-                transaction
-            });
+            return await this.repository.find(targetOption);
         }
         async create(createDto) {
+            const isArray = Array.isArray(createDto);
+            const length = isArray ? createDto.length : 1;
+            const models = Array.from({ length }, (_, index) => {
+                const model = this.repository.create();
+                for (const [key, value] of Object.entries(isArray ? createDto[index] : createDto)) {
+                    model[key] = value;
+                }
+                return model;
+            });
+            return await this.repository.save(models);
+        }
+        async update(updateDto, targetOption = {}) {
             const queryRunner = this.repository.manager.connection.createQueryRunner();
             try {
                 await queryRunner.connect();
                 await queryRunner.startTransaction();
-                const newOne = queryRunner.manager.withRepository(this.repository).create(createDto);
-                const targetOption = { id: newOne.id };
-                const [findOne] = await this.read(targetOption);
-                if (!!findOne) {
-                    const error = {
-                        name: `Already Exists`,
-                        message: `${entity.name} with Option ${targetOption} already exists`
-                    };
-                    throw error;
-                }
-                const result = await queryRunner.manager.withRepository(this.repository).save(newOne, {
+                const models = await this.read({
+                    where: targetOption,
                     transaction: false
                 });
-                await queryRunner.commitTransaction();
-                return result;
-            }
-            catch (error) {
-                await queryRunner.rollbackTransaction();
-                throw error;
-            }
-            finally {
-                await queryRunner.release();
-            }
-        }
-        async update(targetOption, updateDto) {
-            const queryRunner = this.repository.manager.connection.createQueryRunner();
-            try {
-                await queryRunner.connect();
-                await queryRunner.startTransaction();
-                const findMany = await this.read(targetOption, false);
-                if (!findMany || !findMany.length) {
+                if (!models || !models.length) {
                     const error = {
                         name: `Not Found`,
                         message: `${entity.name} with Option ${targetOption} not found`
@@ -85,8 +68,11 @@ function createBaseCrudService(entity) {
             try {
                 await queryRunner.connect();
                 await queryRunner.startTransaction();
-                const [findOne] = await this.read(targetOption, false);
-                if (!findOne) {
+                const [model] = await this.read({
+                    where: targetOption,
+                    transaction: false
+                });
+                if (!model) {
                     const error = {
                         name: `Not Found`,
                         message: `${entity.name} with Option ${targetOption} not found`
@@ -110,8 +96,11 @@ function createBaseCrudService(entity) {
             try {
                 await queryRunner.connect();
                 await queryRunner.startTransaction();
-                const [findOne] = await this.read(targetOption, false);
-                if (!findOne) {
+                const [model] = await this.read({
+                    where: targetOption,
+                    transaction: false
+                });
+                if (!model) {
                     const error = {
                         name: `Not Found`,
                         message: `${entity.name} with Option ${targetOption} not found`

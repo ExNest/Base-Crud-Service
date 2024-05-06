@@ -1,6 +1,6 @@
 import { InjectRepository } from "@nestjs/typeorm";
 import { ExtendedBaseCreateDto, ExtendedBaseTimeEntity, ExtendedBaseUpdateDto } from "../classes/index";
-import { DeepPartial, DeleteResult, FindOptionsWhere, QueryRunner, Repository, UpdateResult } from 'typeorm';
+import { DeleteResult, FindManyOptions, FindOptionsWhere, QueryRunner, Repository, UpdateResult } from 'typeorm';
 import { Constructor } from "../types/index";
 
 export function createBaseCrudService<T extends ExtendedBaseTimeEntity>(entity: Constructor<T>){
@@ -10,58 +10,39 @@ export function createBaseCrudService<T extends ExtendedBaseTimeEntity>(entity: 
       readonly repository: Repository<M>
     ){}
 
-    async read(targetOption?: FindOptionsWhere<M>, transaction: boolean = true): Promise<M[]>{
-      return await this.repository.find({
-        where: targetOption,
-        transaction
-      });
+    async read(targetOption?: FindManyOptions<M>, transaction: boolean = true): Promise<M[]>{
+      return await this.repository.find(targetOption);
     }
 
-    async create(createDto: ExtendedBaseCreateDto<M>){
+    async create(createDto: ExtendedBaseCreateDto<M> | ExtendedBaseCreateDto<M>[]){
+      const isArray: boolean = Array.isArray(createDto);
+      const length: number = isArray ? (createDto as ExtendedBaseCreateDto<M>[]).length : 1;
+      const models: M[] = Array.from({ length }, (_, index: number)=> {
+        const model: M = this.repository.create();
+
+        for(const [key, value] of Object.entries(isArray ? createDto[index] : createDto)){
+          model[key] = value;
+        }
+
+        return model;
+      });
+
+      return await this.repository.save(models);
+    }
+
+    async update(updateDto: ExtendedBaseUpdateDto<M>, targetOption: FindOptionsWhere<M> = {}){
       const queryRunner: QueryRunner = this.repository.manager.connection.createQueryRunner();
 
       try {
         await queryRunner.connect();
         await queryRunner.startTransaction();
         
-        const newOne: M = queryRunner.manager.withRepository(this.repository).create(createDto as DeepPartial<M>);
-        const targetOption: FindOptionsWhere<M> = { id: newOne.id } as FindOptionsWhere<M>;
-
-        const [findOne]: M[] = await this.read(targetOption);
-
-        if(!!findOne){
-          const error: Error = {
-            name: `Already Exists`,
-            message: `${entity.name} with Option ${targetOption} already exists`
-          };
-
-          throw error;
-        }
-
-        const result: M = await queryRunner.manager.withRepository(this.repository).save(newOne, {
+        const models: M[] = await this.read({
+          where: targetOption,
           transaction: false
         });
 
-        await queryRunner.commitTransaction();
-        return result;
-      } catch (error) {
-        await queryRunner.rollbackTransaction();
-        throw error;
-      } finally {
-        await queryRunner.release();
-      }
-    }
-
-    async update(targetOption: FindOptionsWhere<M>, updateDto: ExtendedBaseUpdateDto<M>){
-      const queryRunner: QueryRunner = this.repository.manager.connection.createQueryRunner();
-
-      try {
-        await queryRunner.connect();
-        await queryRunner.startTransaction();
-        
-        const findMany: M[] = await this.read(targetOption, false);
-
-        if(!findMany || !findMany.length){
+        if(!models || !models.length){
           const error: Error = {
             name: `Not Found`,
             message: `${entity.name} with Option ${targetOption} not found`
@@ -89,9 +70,12 @@ export function createBaseCrudService<T extends ExtendedBaseTimeEntity>(entity: 
         await queryRunner.connect();
         await queryRunner.startTransaction();
         
-        const [findOne]: M[] = await this.read(targetOption, false);
+        const [model]: M[] = await this.read({
+          where: targetOption,
+          transaction: false
+        });
 
-        if(!findOne){
+        if(!model){
           const error: Error = {
             name: `Not Found`,
             message: `${entity.name} with Option ${targetOption} not found`
@@ -119,9 +103,12 @@ export function createBaseCrudService<T extends ExtendedBaseTimeEntity>(entity: 
         await queryRunner.connect();
         await queryRunner.startTransaction();
         
-        const [findOne]: M[] = await this.read(targetOption, false);
+        const [model]: M[] = await this.read({
+          where: targetOption,
+          transaction: false
+        });
 
-        if(!findOne){
+        if(!model){
           const error: Error = {
             name: `Not Found`,
             message: `${entity.name} with Option ${targetOption} not found`
