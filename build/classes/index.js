@@ -17,5 +17,4 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./extended-base.entity"), exports);
 __exportStar(require("./extended-base-time.entity"), exports);
 __exportStar(require("./extended-base-dto"), exports);
-__exportStar(require("./extended-base-repository"), exports);
 //# sourceMappingURL=index.js.map

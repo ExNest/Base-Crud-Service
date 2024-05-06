@@ -1,13 +1,13 @@
 import { InjectRepository } from "@nestjs/typeorm";
-import { ExtendedBaseCreateDto, ExtendedBaseRepository, ExtendedBaseTimeEntity, ExtendedBaseUpdateDto } from "../classes/index";
-import { DeepPartial, DeleteResult, FindOptionsWhere, QueryRunner, UpdateResult } from 'typeorm';
+import { ExtendedBaseCreateDto, ExtendedBaseTimeEntity, ExtendedBaseUpdateDto } from "../classes/index";
+import { DeepPartial, DeleteResult, FindOptionsWhere, QueryRunner, Repository, UpdateResult } from 'typeorm';
 import { Constructor } from "../types/index";
 
 export function createBaseCrudService<T extends ExtendedBaseTimeEntity>(entity: Constructor<T>){
   class BaseCrudService<M extends T>{
     constructor(
       @InjectRepository(entity)
-      readonly repository: ExtendedBaseRepository<M>
+      readonly repository: Repository<M>
     ){}
 
     async read(targetOption?: FindOptionsWhere<M>, transaction: boolean = true): Promise<M[]>{
