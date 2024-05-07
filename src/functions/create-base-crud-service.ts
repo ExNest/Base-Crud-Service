@@ -1,6 +1,6 @@
 import { InjectRepository } from "@nestjs/typeorm";
 import { ExtendedBaseCreateDto, ExtendedBaseTimeEntity, ExtendedBaseUpdateDto } from "../classes/index";
-import { DeleteResult, FindManyOptions, FindOptionsWhere, QueryRunner, Repository, UpdateResult } from 'typeorm';
+import { DeleteResult, FindManyOptions, FindOptionsWhere, InsertResult, QueryRunner, Repository, UpdateResult } from 'typeorm';
 import { Constructor } from "../types/index";
 
 export function createBaseCrudService<T extends ExtendedBaseTimeEntity>(entity: Constructor<T>){
@@ -14,7 +14,7 @@ export function createBaseCrudService<T extends ExtendedBaseTimeEntity>(entity: 
       return await this.repository.find(targetOption);
     }
 
-    async create(createDto: ExtendedBaseCreateDto<M> | ExtendedBaseCreateDto<M>[]){
+    async create(createDto: ExtendedBaseCreateDto<M> | ExtendedBaseCreateDto<M>[]): Promise<M[] | InsertResult>{
       const isArray: boolean = Array.isArray(createDto);
       const length: number = isArray ? (createDto as ExtendedBaseCreateDto<M>[]).length : 1;
       const models: M[] = Array.from({ length }, (_, index: number)=> {
@@ -30,7 +30,7 @@ export function createBaseCrudService<T extends ExtendedBaseTimeEntity>(entity: 
       return await this.repository.save(models);
     }
 
-    async update(updateDto: ExtendedBaseUpdateDto<M>, targetOption: FindOptionsWhere<M> = {}){
+    async update(updateDto: ExtendedBaseUpdateDto<M>, targetOption: FindOptionsWhere<M> = {}): Promise<UpdateResult>{
       const queryRunner: QueryRunner = this.repository.manager.connection.createQueryRunner();
 
       try {
@@ -51,7 +51,7 @@ export function createBaseCrudService<T extends ExtendedBaseTimeEntity>(entity: 
           throw error;
         }
 
-        const result: UpdateResult = await queryRunner.manager.withRepository(this.repository).update(targetOption, {...updateDto});
+        const result: UpdateResult = await queryRunner.manager.withRepository(this.repository).update(targetOption, updateDto);
 
         await queryRunner.commitTransaction();
         return result;
@@ -63,7 +63,7 @@ export function createBaseCrudService<T extends ExtendedBaseTimeEntity>(entity: 
       }
     }
 
-    async softDelete(targetOption: FindOptionsWhere<M>){
+    async softDelete(targetOption: FindOptionsWhere<M>): Promise<UpdateResult>{
       const queryRunner: QueryRunner = this.repository.manager.connection.createQueryRunner();
 
       try {
@@ -96,7 +96,7 @@ export function createBaseCrudService<T extends ExtendedBaseTimeEntity>(entity: 
       }
     }
 
-    async delete(targetOption: FindOptionsWhere<M>){
+    async delete(targetOption: FindOptionsWhere<M>): Promise<DeleteResult>{
       const queryRunner: QueryRunner = this.repository.manager.connection.createQueryRunner();
 
       try {

@@ -51,7 +51,7 @@ function createBaseCrudService(entity) {
                     };
                     throw error;
                 }
-                const result = await queryRunner.manager.withRepository(this.repository).update(targetOption, Object.assign({}, updateDto));
+                const result = await queryRunner.manager.withRepository(this.repository).update(targetOption, updateDto);
                 await queryRunner.commitTransaction();
                 return result;
             }
