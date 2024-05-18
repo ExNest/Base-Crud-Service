@@ -29,6 +29,8 @@
     "@types/node": "^20.12.7",
     "commitizen": "^4.3.0",
     "husky": "^8.0.3",
+    "lint-staged": "^15.2.2",
+    "prettier": "^3.2.5",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.4.5"
   },
@@ -45,5 +47,8 @@
       "pre-commit": "npm run build && git add . && echo 'Success add staging files'",
       "prepare-commit-msg": "exec < /dev/tty && npx cz --hook || true"
     }
+  },
+  "lint-staged": {
+    "*.{js,ts}": ["prettier --write", "npm run build", "git add $(git diff --name-only --cached --diff-filter=AM)"]
   }
 }
