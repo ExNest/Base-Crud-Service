@@ -49,6 +49,6 @@
     }
   },
   "lint-staged": {
-    "*.{js,ts}": ["prettier --write", "npm run build", "git add $(git diff --name-only --cached --diff-filter=AM)"]
+    "*.{js,ts}": ["prettier --write"]
   }
 }
