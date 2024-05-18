@@ -15,5 +15,6 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./generic.type"), exports);
+__exportStar(require("./pagination.type"), exports);
 __exportStar(require("./path.type"), exports);
 //# sourceMappingURL=index.js.map

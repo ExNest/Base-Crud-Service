@@ -1,6 +1,6 @@
-import { ExtendedBaseCreateDto, ExtendedBaseTimeEntity, ExtendedBaseUpdateDto } from "../classes/index";
+import { ExtendedBaseCreateDto, ExtendedBaseTimeEntity, ExtendedBaseUpdateDto } from '../classes/index';
 import { DeleteResult, FindManyOptions, FindOptionsWhere, InsertResult, Repository, UpdateResult } from 'typeorm';
-import { Constructor } from "../types/index";
+import { Constructor } from '../types/index';
 export declare function createBaseCrudService<T extends ExtendedBaseTimeEntity>(entity: Constructor<T>): {
     new (repository: Repository<T>): {
         readonly repository: Repository<T>;
